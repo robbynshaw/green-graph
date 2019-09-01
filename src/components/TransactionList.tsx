@@ -4,10 +4,10 @@ import Transaction from './Transaction'
 import addPayees from '../cashlib/addPayees'
 
 const TransactionList: React.FC = () => {
-  let hideInputs = true
+  let hideInputs = false
 
   return (
-      <>
+      <section className='content'>
         {/* <div className='columns'>
             <div className='column'>
                 <label className='checkbox'>
@@ -24,7 +24,7 @@ const TransactionList: React.FC = () => {
                 .map(b => <Transaction key={b.key} trans={b} />)
             }
         </ul>
-      </>
+      </section>
   )
 }
 

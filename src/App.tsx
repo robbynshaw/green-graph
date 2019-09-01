@@ -1,5 +1,5 @@
 import React from 'react';
-import TransactionList from './components/TransactionList'
+import Router from './Router'
 
 const App: React.FC = () => {
   return (
@@ -7,13 +7,11 @@ const App: React.FC = () => {
       <section className='hero is-primary' >
         <div className='hero-body'>
           <div className='container'>
-            <h1 className='title'>Transactions</h1>
+            <h1 className='title'>The Green Graph</h1>
           </div>
         </div>
       </section>
-      <section className='content'>
-        <TransactionList />
-      </section>
+      <Router />
     </div>
   );
 }
