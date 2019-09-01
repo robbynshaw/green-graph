@@ -1,6 +1,12 @@
 import React from 'react'
-import { BrowserRouter, Route, Link } from 'react-router-dom'
+import { BrowserRouter, Route, Link, Redirect } from 'react-router-dom'
 import TransactionList from './components/TransactionList'
+
+const Index: React.FC = () => {
+    return (
+        <Redirect to='/transactions/' />
+    )
+}
 
 const Router: React.FC = () => {
   return (
@@ -15,6 +21,7 @@ const Router: React.FC = () => {
                 </li>
             </ul>
         </div>
+        <Route path='/' component={Index} />
         <Route path="/transactions/" component={TransactionList} />
         <Route path="/categories/" component={TransactionList} />
       </BrowserRouter>
