@@ -1,10 +1,11 @@
-import Transaction from '../models/Transaction'
+import Transaction, { JsonTransaction } from '../models/Transaction'
 import mapData from '../data/maps.json'
 
 const maps = mapData.map(m => {
     return { 
         ...m,
-        patterns: m.tests.map(t => new RegExp(t, 'i'))
+        patterns: m.tests.map(t => new RegExp(t, 'i')),
+        tags: m.tags || []
     }
 })
 
@@ -12,6 +13,7 @@ class PayeeMap {
     name!: string
     tests!: Array<string>
     patterns!: Array<RegExp>
+    tags!: Array<string>
 }
 
 function tryAddPayee(map : PayeeMap, trans : Transaction) {
@@ -23,7 +25,13 @@ function tryAddPayee(map : PayeeMap, trans : Transaction) {
     }
 }
 
-function addPayees(trans : Transaction) {
+function addPayees(jTrans : JsonTransaction) {
+    const trans : Transaction = {
+        ...jTrans,
+        payees: [],
+        tags: [],
+    }
+
     for (let i = 0; i < maps.length; i++) {
         let map = maps[i]
         tryAddPayee(map, trans)
