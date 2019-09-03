@@ -1,62 +1,38 @@
 import React from 'react'
-import { BrowserRouter, Route, Link, Redirect } from 'react-router-dom'
+import { BrowserRouter, Route, Redirect, RouteComponentProps, Switch } from 'react-router-dom'
 import TransactionList from './components/TransactionList'
-import { State } from './store';
-import { connect } from 'react-redux';
-import { changeTab } from './reducers/view';
+import CustomViewComponent from './components/CustomView'
+import TabLink from './components/TabLink'
 
-const Index: React.FC = () => {
+interface ViewMatchParams {
+    id : string
+}
+
+const ViewRouter = (props : RouteComponentProps<ViewMatchParams>) => {
+    let { match: {params: { id } } } = props
     return (
-        <Redirect to='/transactions/' />
+        <CustomViewComponent id={id} />
     )
 }
 
-interface RouterProps {
-    tab : string,
-    changeTab: Function,
-}
-
-interface TabLinkProps {
-    title: string
-    linkPath : string
-    curLocation : string
-    changeTab: Function,
-}
-
-const TabLink : React.FC<TabLinkProps> = (props : TabLinkProps) => {
-    const { title, linkPath, curLocation, changeTab } = props
-    const actCls = curLocation === linkPath ? 'is-active' : ''
-
-    return (
-        <li className={actCls}>
-            <Link onClick={(e) => changeTab(e.currentTarget.href)} to={props.linkPath}>{title}</Link>
-        </li>
-    )
-}
-
-const Router: React.FC<RouterProps> = (props : RouterProps) => {
-  const { changeTab, tab } = props
+const Router: React.FC = () => {
   return (
       <BrowserRouter>
         <div className='tabs'>
             <ul>
-                <TabLink title='Transactions' linkPath='/transactions/' curLocation={tab} changeTab={changeTab} />
-                <TabLink title='Categories' linkPath='/categories/' curLocation={tab} changeTab={changeTab} />
+                <TabLink title='Transactions' linkPath='/transactions/' />
+                <TabLink title='Categories' linkPath='/categories/' />
+                <TabLink title='Views' linkPath='/views/' />
             </ul>
         </div>
-        <Route path='/' component={Index} />
-        <Route path="/transactions/" component={TransactionList} />
-        <Route path="/categories/" component={TransactionList} />
+        <Switch>
+            <Route path="/transactions/" component={TransactionList} />
+            <Route path="/categories/" component={TransactionList} />
+            <Route path="/views/:id" component={ViewRouter} />
+            <Redirect from="/" to="/transactions/" />
+        </Switch>
       </BrowserRouter>
   )
 }
 
-const mapDispatchToProps = (dispatch : Function) => ({
-    changeTab: (name : string) => dispatch(changeTab(name)),
-})
-
-const mapStateToProps = (state : State) => ({
-    tab : state.view.page
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(Router)
+export default Router

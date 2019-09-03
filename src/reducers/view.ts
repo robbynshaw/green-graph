@@ -6,7 +6,7 @@ export interface ViewState {
 }
 
 const initialState : ViewState = {
-    page: '/transactions/'
+    page: window.location.pathname
 }
 
 export const CHANGE_TAB = 'VIEW.TAB.CHANGE'
