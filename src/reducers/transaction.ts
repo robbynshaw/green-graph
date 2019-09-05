@@ -1,6 +1,6 @@
 import update from 'immutability-helper'
 import Transaction from '../models/Transaction'
-import bills from '../data/results.json'
+import bills from '../data/transactions.json'
 import addPayees from '../cashlib/addPayees'
 
 interface TransactionView {

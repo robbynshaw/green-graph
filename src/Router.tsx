@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Redirect, RouteComponentProps, Switch } from 'rea
 import TransactionList from './components/TransactionList'
 import CustomViewComponent from './components/CustomView'
 import TabLink from './components/TabLink'
+import AccountSummaryList from './components/AccountSummaryList';
 
 interface ViewMatchParams {
     id : string
@@ -22,12 +23,14 @@ const Router: React.FC = () => {
             <ul>
                 <TabLink title='Transactions' linkPath='/transactions/' />
                 <TabLink title='Categories' linkPath='/categories/' />
+                <TabLink title='Accounts' linkPath='/accounts/' />
                 <TabLink title='Views' linkPath='/views/' />
             </ul>
         </div>
         <Switch>
             <Route path="/transactions/" component={TransactionList} />
             <Route path="/categories/" component={TransactionList} />
+            <Route path="/accounts/" component={AccountSummaryList} />
             <Route path="/views/:id" component={ViewRouter} />
             <Redirect from="/" to="/transactions/" />
         </Switch>
